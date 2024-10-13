@@ -2,13 +2,13 @@
 // Define the base URL for the API
 const BASE_URL = 'http://localhost:3000/films';
 
-// Function to fetch film data and render the first film details and the films list
+// Function to fetch film data and give the first film details and the list
 const fetchFilms = async () => {
   try {
     const response = await fetch(`${BASE_URL}`);
     const films = await response.json();
-    renderFirstFilm(films[0]); // Render the first film
-    renderFilmList(films);      // Render the film list
+    renderFirstFilm(films[0]); 
+    renderFilmList(films);     
   } catch (error) {
     console.error('Error fetching films:', error);
   }
@@ -17,7 +17,7 @@ const fetchFilms = async () => {
 // Function to render the details of the first film
 const renderFirstFilm = (film) => {
   const filmDetailsContainer = document.querySelector('#film-details');
-  console.log(filmDetailsContainer); // Debugging line
+  console.log(filmDetailsContainer); 
   if (!filmDetailsContainer) {
     console.error("Film details container not found");
     return;
@@ -35,7 +35,7 @@ const renderFirstFilm = (film) => {
       ${availableTickets === 0 ? 'Sold Out' : 'Buy Ticket'}
     </button>
   `;
-
+// Including eventlister to the buy ticket button
   const buyTicketButton = document.querySelector('#buy-ticket-button');
   buyTicketButton.addEventListener('click', () => buyTicket(film));
 };
@@ -94,7 +94,7 @@ const buyTicket = async (film) => {
       // Update the film details on the front-end
       film.tickets_sold = updatedTicketsSold;
       renderFirstFilm(film);
-      renderFilmList(await fetchFilms()); // Refresh film list after purchase
+      renderFilmList(await fetchFilms()); 
     } catch (error) {
       console.error('Error purchasing ticket:', error);
     }
@@ -107,8 +107,8 @@ const deleteFilm = async (filmId, filmItem) => {
     await fetch(`${BASE_URL}/${filmId}`, {
       method: 'DELETE',
     });
-
-    filmItem.remove(); // Remove the film item from the list
+// Remove the film item from the list
+    filmItem.remove(); 
   } catch (error) {
     console.error('Error deleting film:', error);
   }
