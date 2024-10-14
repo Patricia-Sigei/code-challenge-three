@@ -89,9 +89,16 @@ function renderMovieList(movies) {
     filmList.innerHTML = ''; // Clear any placeholder
 
     movies.forEach(movie => {
+        // Check if required properties are present
+        if (!movie.title || movie.capacity === undefined || movie.tickets_sold === undefined) {
+            console.error('Invalid movie data:', movie);
+            return; // Skip rendering this movie
+        }
+
         const filmItem = document.createElement('li');
         filmItem.textContent = movie.title;
         filmItem.classList.add('film', 'item');
+
         filmItem.addEventListener('click', () => displayFirstMovie(movie));
         
         // Create delete button
@@ -105,6 +112,8 @@ function renderMovieList(movies) {
 
         filmItem.appendChild(deleteButton);
         filmList.appendChild(filmItem);
+
+        // Add 'sold-out' class if no tickets are available
         if (movie.capacity - movie.tickets_sold <= 0) {
             filmItem.classList.add('sold-out');
         }
@@ -134,6 +143,7 @@ async function displayMovieList() {
     try {
         const response = await fetch(baseURL);
         const movies = await response.json();
+        console.log(movies); // Log the movies array to check its structure
         renderMovieList(movies);
     } catch (error) {
         console.log("Error fetching movies:", error);
